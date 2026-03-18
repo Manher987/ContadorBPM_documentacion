@@ -1,4 +1,4 @@
-# 🎵 Analizador de BPM – Guía de Usuario y Estudiante
+<img width="800" height="590" alt="image" src="https://github.com/user-attachments/assets/1d7e5c6d-0f03-4fec-ac59-33b94fe71929" /># 🎵 Analizador de BPM – Guía de Usuario y Estudiante
 
 **📦 Versión:** 1.0
 **📅 Fecha:** 18/03/2026
@@ -164,4 +164,27 @@ Perfecto para aprender haciendo algo útil y divertido.
 
 ---
 
-✨ ¡Disfruta midiendo ritmos!
+## 🛠️ Tareas pendientes
+
+* ⏱️ Mejorar la precisión del cálculo en ritmos irregulares
+* 📊 Añadir visualización gráfica del BPM en tiempo real
+* 🎵 Integrar análisis automático de archivos de audio
+* 💾 Permitir exportar resultados (CSV o JSON)
+* 🌙 Añadir modo oscuro/claro configurable
+* 📱 Optimizar aún más la experiencia en móviles
+* 🔔 Añadir feedback sonoro al hacer clic
+* 🧪 Implementar tests básicos del cálculo
+
+---
+
+## 🧩 Inspiración tecnológica
+
+
+
+![Image](https://images.openai.com/static-rsc-4/xOFgTJKiedzBynyryauvahx8orYk0jeIH54-K3pF8bkLrVUzjW8e6buXkciPCMrV66_gZma1IVaYwlTzVFcCRIXv4QP-Sj5yEhZfjMcWsp0ExAhpFdfyKB7aeejEwXpg3Jfj2zxEw2e-qEf1V-8za6icoJf7hG-i26E9ffH7hOfLMlGpXRORzx5BsS12Ny4Q?purpose=fullsize)
+
+![Image](https://cdn.rrauction.com/auction/714/3497747_1.jpg)
+
+El **microprocesador 6502** es uno de los chips más influyentes de la historia de la informática, utilizado en sistemas clásicos como el Apple II o la NES 🎮. Representa los orígenes de la computación eficiente y optimizada, valores que también inspiran el desarrollo de aplicaciones ligeras como este analizador de BPM.
+
+---
