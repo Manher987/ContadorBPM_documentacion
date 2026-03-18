@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<!-- 
+    DOCTYPE: Declaración que indica al navegador que este es un documento HTML5.
+    Es obligatorio y debe ser la primera línea del documento.
+-->
+
+<html lang="es">
+<!-- 
+    Etiqueta raíz que contiene todo el documento HTML.
+    'lang="es"' indica que el idioma del contenido es español, lo cual ayuda a:
+    - Lectores de pantalla (accesibilidad)
+    - Motores de búsqueda (SEO)
+    - Navegadores para ofrecer traducción automática
+    
+    ALTERNATIVA: lang="en" para inglés, lang="fr" para francés, etc.
+-->
+
+<head>
+    <!-- 
+        HEAD: Sección que contiene metadatos (información sobre la página).
+        No se muestra visualmente en la página, pero es crucial para:
+        - Configuración del navegador
+        - SEO (optimización en buscadores)
+        - Redes sociales
+        - Instalación como PWA
+    -->
+    
+    <meta charset="UTF-8">
+    <!-- 
+        Charset: Define la codificación de caracteres del documento.
+        UTF-8 permite usar cualquier símbolo: ñ, á, €, 中, 🎵, etc.
+        Es el estándar actual y debe ser SIEMPRE la primera meta tag.
+        
+        ¿Por qué UTF-8? Porque soporta todos los idiomas del mundo.
+    -->
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 
+        Viewport: Controla cómo se ve la página en dispositivos móviles.
+        - width=device-width: El ancho de la página = ancho de la pantalla
+        - initial-scale=1.0: Zoom inicial al 100% (sin zoom)
+        
+        SIN ESTO: En móviles verías la versión de escritorio muy pequeña.
+        CON ESTO: La página se adapta al tamaño del móvil.
+        
+        EJERCICIO 1: Prueba a eliminar esta línea y ver qué pasa en móvil.
+    -->
+    
+    <meta name="theme-color" content="#667eea">
+    <!-- 
+        Theme-color: Color de la barra de estado en Android/Chrome.
+        Hace que la barra superior del navegador tome este color.
+        Solo funciona en navegadores compatibles (Chrome, Edge, Safari).
+        
+        EJERCICIO 2: Cambia #667eea por #ff0000 (rojo) y observa la diferencia.
+    -->
+    
+    <meta name="description" content="Mide los BPM de cualquier canción con solo hacer clic al ritmo">
+    <!-- 
+        Description: Descripción que aparece en resultados de Google.
+        Importante para SEO. Debe ser concisa (150-160 caracteres).
+        
+        BUENA PRÁCTICA: Describe claramente qué hace tu aplicación.
+    -->
+    
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFuYWxpemFkb3IgZGUgQlBNIiwKICAic2hvcnRfbmFtZSI6ICJCUE0iLAogICJkZXNjcmlwdGlvbiI6ICJNaWRlIGxvcyBCUE0gZGUgY3VhbHF1aWVyIGNhbmNpw7NuIGNvbiBzb2xvIGhhY2VyIGNsaWMgYWwgcml0bW8iLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzY2N2VlYSIsCiAgInRoZW1lX2NvbG9yIjogIiM2NjdlZWEiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmclMjB4bWxucyUzRCdodHRwJTNBJTJGJTJGd3d3LnczLm9yZyUyRjIwMDAlMkZzdmcnJTIwdmlld0JveCUzRCcwJTIwMCUyMDUxMiUyMDUxMicjM0UlM0NyZWN0JTIwd2lkdGglM0QnNTEyJyUyMGhlaWdodCUzRCc1MTInJTIwZmlsbCUzRCclMjM2NjdlZWEnJTJGJTNFJTNDdGV4dCUyMHglM0QnNTAlMjUnJTIweSUzRCc1MCUyNSclMjBmb250LXNpemUlM0QnMzAwJyUyMHRleHQtYW5jaG9yJTNEJ21pZGRsZSclMjBkb21pbmFudC1iYXNlbGluZSUzRCdtaWRkbGUnJTIwZmlsbCUzRCd3aGl0ZSclM0UlRjAlOUYlOEUlQjUlM0MlMkZ0ZXh0JTNFJTNDJTJGc3ZnJTNFIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
+    <!-- 
+        Manifest: Archivo de configuración para PWA (Progressive Web App).
+        Está codificado en Base64 para incluirlo directamente en el HTML.
+        
+        Contiene (decodificado):
+        {
+          "name": "Analizador de BPM",           // Nombre completo de la app
+          "short_name": "BPM",                   // Nombre corto para el icono
+          "description": "Mide los BPM...",      // Descripción de la app
+          "start_url": ".",                       // URL de inicio al abrir la app
+          "display": "standalone",                // Se abre sin barra del navegador
+          "background_color": "#667eea",          // Color de fondo al cargar
+          "theme_color": "#667eea",               // Color del tema
+          "orientation": "portrait",              // Orientación preferida
+          "icons": [...]                          // Icono de la aplicación
+        }
+        
+        PARA PRODUCCIÓN: Mejor usar un archivo manifest.json separado.
+        EJERCICIO 3: Investiga cómo crear un manifest.json y enlazarlo.
+    -->
+    
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23667eea'/%3E%3Ctext x='50%25' y='50%25' font-size='300' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🎵%3C/text%3E%3C/svg%3E">
+    <!-- 
+        Apple-touch-icon: Icono para cuando se añade a pantalla en iOS/Safari.
+        Aquí usamos un SVG inline con el emoji 🎵.
+        
+        MEJORA: Crear un icono PNG de 180x180px para mejor calidad.
+        EJERCICIO 4: Diseña tu propio icono y cámbialo aquí.
+    -->
+    
+    <title>Analizador de BPM</title>
+    <!-- 
+        Title: Título que aparece en la pestaña del navegador.
+        También se usa en marcadores y resultados de búsqueda.
+        Debe ser descriptivo y único para cada página.
+    -->
+    
+    <style>
+        /* =================================================================
+           CSS (Cascading Style Sheets): Hojas de estilo en cascada
+           
+           CSS controla CÓMO SE VE la página (colores, tamaños, posiciones).
+           HTML define QUÉ ES (estructura), CSS define CÓMO SE VE (diseño).
+           
+           ESTRUCTURA CSS:
+           selector { propiedad: valor; }
+           
+           Ejemplo: h1 { color: red; }
+           - selector: h1 (a qué elemento aplicar el estilo)
+           - propiedad: color (qué característica cambiar)
+           - valor: red (qué valor darle)
+           ================================================================= */
+        
+        * {
+            /* 
+                Selector universal (*): Selecciona TODOS los elementos.
+                Útil para resetear estilos predeterminados del navegador.
+            */
+            margin: 0;           /* Elimina márgenes externos de todos los elementos */
+            padding: 0;          /* Elimina relleno interno de todos los elementos */
+            box-sizing: border-box;
+            /* 
+                box-sizing: border-box hace que el ancho/alto incluya padding y border.
+                
+                SIN border-box: Un div de 100px + 10px padding = 120px total
+                CON border-box: Un div de 100px + 10px padding = 100px total
+                
+                ESTO FACILITA los cálculos de tamaño.
+            */
+        }
+
+        body {
+            /* 
+                Body: Estilos que afectan a todo el cuerpo del documento.
+                Todo lo que ves en la página está dentro de <body>.
+            */
+            font-family: 'Arial', sans-serif;
+            /* 
+                font-family: Define la tipografía (fuente).
+                - Arial: Fuente preferida
+                - sans-serif: Fuente de respaldo si Arial no está disponible
+                
+                ALTERNATIVAS: 'Helvetica', 'Roboto', 'Open Sans'
+                EJERCICIO 5: Prueba diferentes fuentes de Google Fonts.
+            */
+            
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            /* 
+                background: Define el fondo.
+                linear-gradient: Crea un degradado (transición suave entre colores).
+                
+                Parámetros:
+                - 135deg: Ángulo del degradado (de esquina superior izq. a inf. der.)
+                - #667eea 0%: Color inicial (azul violeta) en la posición 0%
+                - #764ba2 100%: Color final (morado) en la posición 100%
+                
+                EJERCICIO 6: Cambia el ángulo a 90deg o los colores.
+                HERRAMIENTA: https://cssgradient.io/
+            */
+            
+            min-height: 100vh;
+            /* 
+                min-height: Altura mínima del elemento.
+                100vh = 100% del Viewport Height (altura de la ventana del navegador).
+                
+                RESULTADO: El body ocupará al menos toda la altura de la pantalla.
+                Si el contenido es más alto, crecerá automáticamente.
+            */
+            
+            display: flex;
+            /* 
+                display: flex activa Flexbox, un sistema de diseño CSS.
+                Flexbox facilita alinear y distribuir elementos.
+                
+                ANTES DE FLEX: Se usaban floats y era complicado centrar.
+                CON FLEX: Centrar elementos es muy sencillo.
+            */
+            
+            justify-content: center;
+            /* 
+                justify-content: Alineación horizontal en Flexbox.
+                - center: Centra horizontalmente
+                - flex-start: Alinea a la izquierda
+                - flex-end: Alinea a la derecha
+                - space-between: Distribuye con espacio entre elementos
+            */
+            
+            align-items: center;
+            /* 
+                align-items: Alineación vertical en Flexbox.
+                - center: Centra verticalmente
+                - flex-start: Alinea arriba
+                - flex-end: Alinea abajo
+                
+                RESULTADO DE FLEX + JUSTIFY + ALIGN: 
+                El contenido queda perfectamente centrado horizontal y verticalmente.
+            */
+            
+            color: white;
+            /* Color del texto. Todos los textos serán blancos por defecto. */
+        }
+
+        .container {
+            /* 
+                Selector de clase (.container): Selecciona elementos con class="container"
+                Las clases se pueden reutilizar en múltiples elementos.
+            */
+            text-align: center;
+            /* Centra el texto horizontalmente dentro del contenedor */
+            
+            background: rgba(255, 255, 255, 0.1);
+            /* 
+                rgba(): Color con transparencia (Red, Green, Blue, Alpha).
+                - rgba(255, 255, 255, 0.1) = blanco con 10% de opacidad
+                
+                RESULTADO: Fondo blanco semi-transparente (efecto cristal).
+                EJERCICIO 7: Cambia 0.1 a 0.5 para hacerlo más opaco.
+            */
+            
+            backdrop-filter: blur(10px);
+            /* 
+                backdrop-filter: Aplica efectos al fondo detrás del elemento.
+                blur(10px): Desenfoca lo que está detrás.
+                
+                EFECTO: Glassmorphism (efecto de vidrio esmerilado).
+                MUY MODERNO: Usado en macOS Big Sur, Windows 11, etc.
+                
+                COMPATIBILIDAD: No funciona en Firefox antiguo.
+            */
+            
+            padding: 50px;
+            /* 
+                padding: Espacio interno entre el borde y el contenido.
+                50px de espacio en todos los lados (arriba, derecha, abajo, izquierda).
+                
+                ALTERNATIVAS:
+                - padding: 50px 20px; (vertical, horizontal)
+                - padding: 50px 20px 30px 10px; (arriba, derecha, abajo, izquierda)
+            */
+            
+            border-radius: 20px;
+            /* 
+                border-radius: Redondea las esquinas.
+                20px de radio = esquinas bien redondeadas.
+                
+                VALORES COMUNES:
+                - 5px: Ligeramente redondeado
+                - 50%: Círculo perfecto (si width = height)
+                
+                EJERCICIO 8: Prueba con 50px o 0px.
+            */
+            
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            /* 
+                box-shadow: Sombra del elemento.
+                Sintaxis: offset-x offset-y blur spread color
+                
+                - 0: Sin desplazamiento horizontal
+                - 8px: Desplazamiento vertical hacia abajo
+                - 32px: Difuminado de la sombra
+                - rgba(0,0,0,0.3): Negro con 30% de opacidad
+                
+                EFECTO: Sombra suave que da profundidad (elevación).
+                EJERCICIO 9: Aumenta el blur a 50px o cambia la opacidad.
+            */
+            
+            max-width: 600px;
+            /* 
+                max-width: Ancho máximo del elemento.
+                El contenedor nunca será más ancho de 600px.
+                En pantallas grandes, se detiene en 600px.
+                En pantallas pequeñas, se ajusta al ancho disponible.
+            */
+            
+            width: 90%;
+            /* 
+                width: Ancho del elemento.
+                90% del elemento padre (en este caso, del body).
+                
+                COMBINADO CON max-width:
+                - Pantalla 1920px: width será 600px (limitado por max-width)
+                - Pantalla 400px: width será 360px (90% de 400px)
+                
+                ESTO HACE LA WEB RESPONSIVE (adaptable).
+            */
+        }
+
+        h1 {
+            /* Estilos para el título principal (h1) */
+            font-size: 2.5em;
+            /* 
+                font-size: Tamaño de la fuente.
+                em: Unidad relativa al tamaño de fuente del elemento padre.
+                - 1em = tamaño normal
+                - 2.5em = 2.5 veces el tamaño normal
+                
+                VENTAJA DE EM: Si cambias el tamaño base, todo se escala.
+                ALTERNATIVA: px (píxeles) para tamaño fijo.
+            */
+            
+            margin-bottom: 20px;
+            /* 
+                margin-bottom: Espacio externo debajo del elemento.
+                Separa el h1 del elemento siguiente.
+            */
+            
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            /* 
+                text-shadow: Sombra del texto.
+                Sintaxis: offset-x offset-y blur color
+                
+                - 2px: Desplazamiento horizontal
+                - 2px: Desplazamiento vertical
+                - 4px: Difuminado
+                - rgba(0,0,0,0.3): Negro semi-transparente
+                
+                EFECTO: El texto tiene profundidad y se lee mejor.
+            */
+        }
+
+        .instruction {
+            /* Estilos para el texto de instrucciones */
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            /* 
+                opacity: Transparencia del elemento completo.
+                - 0 = invisible
+                - 1 = completamente opaco
+                - 0.9 = 90% visible
+                
+                EFECTO: Texto ligeramente translúcido (más sutil).
+            */
+        }
+
+        /* ============================================================
+           MEDIA QUERIES: CSS que se aplica solo en ciertos tamaños
+           
+           Permiten hacer diseños responsive (que se adapten al dispositivo).
+           ============================================================ */
+
+        @media (max-width: 768px) {
+            /* 
+                @media: Regla condicional de CSS.
+                (max-width: 768px): Se aplica cuando la pantalla es ≤ 768px.
+                
+                768px es un breakpoint común para tablets.
+                
+                TODO LO QUE ESTÁ DENTRO se aplica solo en pantallas pequeñas.
+            */
+            
+            .container {
+                padding: 30px 20px;
+                /* 
+                    En móviles, reducimos el padding para aprovechar espacio.
+                    30px arriba/abajo, 20px izquierda/derecha.
+                */
+            }
+
+            h1 {
+                font-size: 2em;
+                /* Título más pequeño en móviles */
+            }
+
+            .instruction {
+                font-size: 1em;
+                /* Instrucciones más pequeñas en móviles */
+            }
+
+            .click-area {
+                padding: 60px 20px;
+                /* Área de clic más compacta en móviles */
+            }
+
+            .bpm-display {
+                font-size: 3em;
+                /* Display de BPM más pequeño en móviles */
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                /* 
+                    En móviles, las estadísticas se apilan verticalmente.
+                    1fr = una columna que ocupa todo el ancho.
+                    
+                    En desktop son 2 columnas, en móvil 1 columna.
+                */
+                gap: 15px;
+                /* Espacio más pequeño entre elementos */
+            }
+
+            .stat-value {
+                font-size: 1.5em;
+            }
+
+            .reset-btn {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            /* 
+                Breakpoint para móviles muy pequeños (≤ 480px).
+                Ajustes adicionales para pantallas muy pequeñas.
+            */
+            
+            .container {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .click-area {
+                padding: 50px 15px;
+            }
+
+            .bpm-display {
+                font-size: 2.5em;
+            }
+        }
+
+        .click-area {
+            /* Área donde el usuario hace clic para medir BPM */
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid white;
+            /* 
+                border: Borde del elemento.
+                3px: Grosor del borde
+                solid: Estilo sólido (otras opciones: dashed, dotted)
+                white: Color del borde
+            */
+            
+            border-radius: 15px;
+            padding: 80px 40px;
+            margin: 30px 0;
+            /* margin: 30px 0 = 30px arriba/abajo, 0 izquierda/derecha */
+            
+            cursor: pointer;
+            /* 
+                cursor: Cambia el cursor del ratón.
+                pointer: Manita (indica que es clicable).
+                
+                OTRAS OPCIONES: default, wait, text, move, not-allowed
+            */
+            
+            transition: all 0.3s ease;
+            /* 
+                transition: Anima los cambios de propiedades CSS.
+                - all: Anima todas las propiedades que cambien
+                - 0.3s: Duración de la animación (300 milisegundos)
+                - ease: Curva de animación (inicio lento, rápido, fin lento)
+                
+                EFECTO: Cuando algo cambie (hover, active), será suave.
+                
+                OTRAS CURVAS: linear, ease-in, ease-out, ease-in-out
+            */
+            
+            user-select: none;
+            /* 
+                user-select: Controla si el texto es seleccionable.
+                none: No se puede seleccionar el texto con el ratón.
+                
+                ÚTIL AQUÍ: Evita seleccionar texto al hacer clics rápidos.
+            */
+            
+            -webkit-tap-highlight-color: transparent;
+            /* 
+                Propiedad específica de WebKit (Chrome, Safari).
+                Elimina el resaltado azul al tocar en móviles iOS/Android.
+                
+                transparent: Sin color de resaltado.
+                
+                MEJOR UX: Sin flash azul molesto al tocar.
+            */
+            
+            touch-action: manipulation;
+            /* 
+                touch-action: Controla gestos táctiles.
+                manipulation: Permite tocar y hacer zoom, pero deshabilita
+                              el doble-tap para zoom (mejora la respuesta).
+                
+                RESULTADO: Los clics responden más rápido en móviles.
+            */
+        }
+
+        .click-area:hover {
+            /* 
+                Pseudo-clase :hover se activa cuando el ratón está encima.
+                Solo funciona en dispositivos con ratón (no en móviles táctiles).
+            */
+            background: rgba(255, 255, 255, 0.3);
+            /* Fondo más claro al pasar el ratón */
+            
+            transform: scale(1.02);
+            /* 
+                transform: Aplica transformaciones 2D/3D.
+                scale(1.02): Escala el elemento al 102% (crece ligeramente).
+                
+                EFECTO: El área "crece" un poquito al pasar el ratón.
+                
+                OTRAS TRANSFORMACIONES:
+                - rotate(45deg): Rota 45 grados
+                - translateX(10px): Mueve 10px a la derecha
+                - skew(10deg): Inclina el elemento
+            */
+        }
+
+        .click-area:active {
+            /* 
+                Pseudo-clase :active se activa mientras se mantiene presionado.
+                Dura solo mientras el botón del ratón/dedo está presionado.
+            */
+            transform: scale(0.98);
+            /* Se encoge al 98% al hacer clic */
+            
+            background: rgba(255, 255, 255, 0.4);
+            /* Fondo aún más claro */
+            
+            /* 
+                EFECTO COMPLETO:
+                1. Normal: tamaño 100%
+                2. Hover (ratón encima): crece a 102%
+                3. Active (clic): encoge a 98%
+                
+                Esto da feedback visual de que se hizo clic.
+            */
+        }
+
+        .bpm-display {
+            /* Display grande que muestra los BPM calculados */
+            font-size: 4em;
+            font-weight: bold;
+            /* font-weight: Grosor de la fuente (normal, bold, 100-900) */
+            
+            margin: 20px 0;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: pulse 0.5s ease-in-out;
+            /* 
+                animation: Aplica una animación CSS.
+                - pulse: Nombre de la animación (definida con @keyframes)
+                - 0.5s: Duración
+                - ease-in-out: Curva de animación
+                
+                Esta animación se ejecuta automáticamente al cargar.
+                Luego se reinicia desde JavaScript.
+            */
+        }
+
+        @keyframes pulse {
+            /* 
+                @keyframes: Define una animación CSS personalizada.
+                'pulse' es el nombre que le damos.
+                
+                Dentro definimos frames (fotogramas) de la animación.
+            */
+            
+            0%, 100% { 
+                /* 
+                    0% = inicio de la animación
+                    100% = final de la animación
+                    
+                    Al poner ambos juntos, decimos que al inicio
+                    y al final, el estado es el mismo.
+                */
+                transform: scale(1); 
+                /* Tamaño normal (100%) */
+            }
+            
+            50% { 
+                /* 
+                    50% = mitad de la animación
+                    En 0.5s, esto sería a los 0.25s
+                */
+                transform: scale(1.05); 
+                /* Tamaño 105% (crece un poco) */
+            }
+            
+            /* 
+                RESULTADO DE LA ANIMACIÓN:
+                - Empieza en 100% (normal)
+                - Crece a 105% (mitad)
+                - Vuelve a 100% (final)
+                
+                EFECTO: "Latido" o "pulso" del número de BPM.
+                
+                EJERCICIO 10: Cambia 1.05 a 1.2 para un pulso más grande.
+            */
+        }
+
+        .stats {
+            /* Contenedor de estadísticas */
+            display: grid;
+            /* 
+                display: grid activa CSS Grid, sistema de diseño en cuadrícula.
+                Más potente que Flexbox para layouts 2D.
+            */
+            
+            grid-template-columns: 1fr 1fr;
+            /* 
+                grid-template-columns: Define las columnas del grid.
+                1fr 1fr = dos columnas de igual tamaño.
+                
+                fr = fracción del espacio disponible.
+                - 1fr 1fr = 50% y 50%
+                - 2fr 1fr = 66.6% y 33.3%
+                
+                RESULTADO: Dos cajas de estadísticas lado a lado.
+            */
+            
+            gap: 20px;
+            /* 
+                gap: Espacio entre elementos del grid.
+                20px de separación entre las dos cajas de estadísticas.
+                
+                ANTES: Se usaba margin, era más complicado.
+                AHORA: gap es mucho más simple.
+            */
+            
+            margin-top: 30px;
+        }
+
+        .stat-box {
+            /* Cada caja individual de estadística */
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .stat-label {
+            /* Etiqueta de la estadística ("Clics registrados", etc.) */
+            font-size: 0.9em;
+            opacity: 0.8;
+            /* Ligeramente transparente para que sea más sutil */
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            /* Valor numérico de la estadística */
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .reset-btn {
+            /* Botón de reiniciar */
+            background: white;
+            color: #667eea;
+            /* Colores invertidos: fondo blanco, texto morado */
+            
+            border: none;
+            /* 
+                border: none elimina el borde predeterminado de los botones.
+                Los botones HTML tienen borde por defecto, esto lo quita.
+            */
+            
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 25px;
+            /* border-radius alto = botón muy redondeado (estilo "pill") */
+            
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            /* Sombra para dar sensación de elevación */
+        }
+
+        .reset-btn:hover {
+            /* Efecto al pasar el ratón sobre el botón */
+            transform: translateY(-2px);
+            /* 
+                translateY(-2px): Mueve el botón 2px hacia ARRIBA.
+                Valores negativos = arriba, positivos = abajo.
+                
+                EFECTO: El botón "levita" al pasar el ratón.
+            */
+            
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+            /* Sombra más grande = más altura aparente */
+        }
+
+        .reset-btn:active {
+            /* Efecto al hacer clic */
+            transform: translateY(0);
+            /* Vuelve a su posición original (se "hunde") */
+        }
+
+        .status {
+            /* Mensaje de estado de la aplicación */
+            margin-top: 15px;
+            font-size: 0.95em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- 
+        BODY: Aquí va todo el contenido VISIBLE de la página.
+        Todo lo que ves en el navegador está dentro de <body>.
+    -->
+    
+    <div class="container">
+        <!-- 
+            DIV: División o contenedor genérico.
+            Es el elemento más usado en HTML para agrupar contenido.
+            No tiene significado semántico (a diferencia de <header>, <article>, etc.)
+            
+            class="container": Aplica los estilos CSS de la clase .container
+            
+            ALTERNATIVA SEMÁNTICA: <main> para el contenido principal
+        -->
+        
+        <h1>🎵 Analizador de BPM</h1>
+        <!-- 
+            H1: Heading 1 (Encabezado de nivel 1).
+            El título más importante de la página.
+            
+            JERARQUÍA DE ENCABEZADOS:
+            - <h1>: Más importante (solo 1 por página, idealmente)
+            - <h2>: Subtítulos principales
+            - <h3>: Subtítulos secundarios
+            - ... hasta <h6>
+            
+            🎵: Emoji Unicode, funciona porque usamos UTF-8
+            
+            BUENA PRÁCTICA SEO: Solo un <h1> por página.
+        -->
+        
+        <p class="instruction">Haz clic al ritmo de la música</p>
+        <!-- 
+            P: Párrafo (Paragraph).
+            Elemento de bloque para texto.
+            
+            ALTERNATIVA: <span> para texto en línea (inline)
+        -->
+        
+        <div class="click-area" id="clickArea">
+            <!-- 
+                id="clickArea": Identificador único del elemento.
+                Los IDs deben ser únicos en toda la página.
+                Se usan para:
+                - Seleccionar desde JavaScript
+                - Enlaces internos (#clickArea)
+                - Estilos CSS específicos (#clickArea)
+                
+                DIFERENCIA class vs id:
+                - class: Se puede repetir, para estilos generales
+                - id: Único, para identificar un elemento específico
+            -->
+            
+            <div style="font-size: 2em; margin-bottom: 10px;">👆 Haz clic aquí</div>
+            <!-- 
+                style="...": CSS inline (dentro del HTML).
+                Se aplica directamente a este elemento.
+                
+                VENTAJA: Rápido para estilos únicos.
+                DESVENTAJA: No se puede reutilizar, dificulta mantenimiento.
+                
+                BUENA PRÁCTICA: Preferir clases CSS en <style> o archivo externo.
+                AQUÍ: Lo usamos porque es un estilo muy específico de este elemento.
+            -->
+            
+            <div style="opacity: 0.8;">Al ritmo que quieras medir</div>
+        </div>
+
+        <div class="bpm-display" id="bpmDisplay">-- BPM</div>
+        <!-- 
+            Este div mostrará los BPM calculados.
+            JavaScript cambiará su contenido dinámicamente.
+            
+            "-- BPM": Texto inicial (placeholder) hasta que haya datos.
+        -->
+        
+        <div class="stats">
+            <!-- Contenedor de estadísticas usando CSS Grid -->
+            
+            <div class="stat-box">
+                <div class="stat-label">Clics registrados</div>
+                <div class="stat-value" id="clickCount">0</div>
+                <!-- 
+                    id="clickCount": JavaScript actualizará este número.
+                    Contenido inicial: 0
+                -->
+            </div>
+            
+            <div class="stat-box">
+                <div class="stat-label">Promedio BPM</div>
+                <div class="stat-value" id="avgBpm">--</div>
+                <!-- 
+                    "--": Placeholder hasta que haya suficientes datos.
+                -->
+            </div>
+        </div>
+
+        <div class="status" id="status">Esperando clics...</div>
+        <!-- 
+            Mensaje de estado que cambia según la interacción del usuario.
+            JavaScript lo actualizará dinámicamente.
+        -->
+
+        <button class="reset-btn" id="resetBtn">Reiniciar</button>
+        <!-- 
+            BUTTON: Elemento de botón interactivo.
+            
+            IMPORTANTE: Siempre usa <button> para botones, NO <div> o <a>.
+            RAZONES:
+            1. Semántica correcta (HTML semántico)
+            2. Accesibilidad (teclado, lectores de pantalla)
+            3. Funcionalidad nativa (Enter, Espacio activan el botón)
+            
+            ATRIBUTOS ÚTILES DE BUTTON:
+            - type="button": Botón normal (default)
+            - type="submit": Envía formulario
+            - type="reset": Resetea formulario
+            - disabled: Deshabilitado
+        -->
+    </div>
+
+    <script>
+        /* =================================================================
+           JAVASCRIPT: Lenguaje de programación que da INTERACTIVIDAD
+           
+           HTML = Estructura (los huesos)
+           CSS = Apariencia (la piel)
+           JAVASCRIPT = Comportamiento (el cerebro)
+           
+           JavaScript permite:
+           - Responder a eventos (clics, teclas, etc.)
+           - Modificar el contenido dinámicamente
+           - Hacer cálculos
+           - Comunicarse con servidores
+           - Y mucho más...
+           
+           NOTA: JavaScript ES CASE-SENSITIVE (distingue mayúsculas/minúsculas)
+           ================================================================= */
+        
+        // =================================================================
+        // INTENTAR REGISTRAR SERVICE WORKER PARA PWA
+        // =================================================================
+        
+        if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+            /* 
+                ESTRUCTURA IF:
+                if (condición) { código a ejecutar si la condición es verdadera }
+                
+                OPERADOR IN:
+                'serviceWorker' in navigator verifica si el navegador soporta Service Workers.
+                
+                OPERADOR &&:
+                && significa "Y" lógico. Ambas condiciones deben ser verdaderas.
+                
+                CONDICIONES:
+                1. Service Worker disponible en el navegador
+                2. La página se carga por HTTPS (no HTTP)
+                
+                ¿POR QUÉ HTTPS?
+                Los Service Workers solo funcionan en HTTPS por seguridad.
+                Excepción: localhost para desarrollo.
+            */
+            
+            window.addEventListener('load', () => {
+                /* 
+                    addEventListener: Registra un "escuchador" de eventos.
+                    
+                    EVENTO 'load': Se dispara cuando la página termina de cargar.
+                    
+                    SINTAXIS:
+                    elemento.addEventListener('evento', función)
+                    
+                    () => { ... }: Arrow function (función flecha) de ES6.
+                    Es una forma moderna y concisa de escribir funciones.
+                    
+                    EQUIVALENTE ANTIGUO:
+                    function() { ... }
+                    
+                    ARROW FUNCTIONS:
+                    - Sintaxis más corta
+                    - No tienen su propio 'this' (heredan el contexto)
+                */
+                
+                const swCode = `
+                    self.addEventListener('install', (e) => {
+                        console.log('SW instalado');
+                        self.skipWaiting();
+                    });
+                    
+                    self.addEventListener('activate', (e) => {
+                        console.log('SW activado');
+                        e.waitUntil(clients.claim());
+                    });
+                    
+                    self.addEventListener('fetch', (e) => {
+                        e.respondWith(fetch(e.request).catch(() => e.request));
+                    });
+                `;
+                /* 
+                    const: Declara una constante (valor que no cambiará).
+                    
+                    TIPOS DE DECLARACIÓN EN JAVASCRIPT:
+                    - const: No se puede reasignar (usar por defecto)
+                    - let: Se puede reasignar (para variables que cambian)
+                    - var: Antiguo, no usar (tiene problemas de scope)
+                    
+                    TEMPLATE LITERALS (` `):
+                    Los backticks permiten strings multi-línea y interpolación.
+                    
+                    ${variable}: Inserta el valor de una variable en el string.
+                    
+                    ESTE CÓDIGO:
+                    Código del Service Worker que se ejecutará en segundo plano.
+                    Maneja la instalación, activación y peticiones de red.
+                */
+                
+                try {
+                    /* 
+                        TRY-CATCH: Manejo de errores.
+                        
+                        try { código que puede fallar }
+                        catch { qué hacer si falla }
+                        
+                        Si algo dentro de try lanza un error, se captura en catch
+                        y el programa no se detiene abruptamente.
+                        
+                        BUENA PRÁCTICA: Siempre manejar errores en operaciones
+                        que pueden fallar (red, archivos, API, etc.)
+                    */
+                    
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    /* 
+                        Blob: Binary Large Object (objeto binario grande).
+                        Representa datos en formato binario.
+                        
+                        new Blob(): Crea un nuevo blob.
+                        - [swCode]: Array con el contenido
+                        - { type: '...' }: Tipo MIME del contenido
+                        
+                        PARA QUÉ:
+                        Convertir el string de JavaScript en un archivo virtual.
+                    */
+                    
+                    const swUrl = URL.createObjectURL(blob);
+                    /* 
+                        URL.createObjectURL(): Crea una URL temporal para el blob.
+                        
+                        RESULTADO: Una URL como "blob:http://localhost/abc123"
+                        que apunta al contenido del blob en memoria.
+                        
+                        VENTAJA: No necesitamos un archivo sw.js físico.
+                        DESVENTAJA: Algunos navegadores lo bloquean por seguridad.
+                    */
+                    
+                    navigator.serviceWorker.register(swUrl)
+                        .then(() => console.log('✓ Service Worker registrado'))
+                        .catch(err => console.log('Info: Esta página necesita estar en HTTPS para instalar'));
+                    /* 
+                        PROMESAS (Promises):
+                        Representan un valor que estará disponible en el futuro.
+                        
+                        .then(): Se ejecuta si la promesa se cumple (éxito).
+                        .catch(): Se ejecuta si la promesa se rechaza (error).
+                        
+                        SINTAXIS:
+                        promesa.then(resultado => { usar resultado })
+                               .catch(error => { manejar error })
+                        
+                        ALTERNATIVA MODERNA: async/await
+                        
+                        CONSOLE.LOG():
+                        Imprime mensajes en la consola del navegador (F12).
+                        Útil para depuración.
+                        
+                        EJERCICIO 11: Abre la consola (F12) y observa los mensajes.
+                    */
+                    
+                } catch (err) {
+                    /* 
+                        err: Variable que contiene el error capturado.
+                        Puedes nombrarlo como quieras (error, e, etc.)
+                    */
+                    console.log('Info: Service Worker no disponible en este contexto');
+                }
+            });
+        }
+
+        // =================================================================
+        // VARIABLES GLOBALES DEL ESTADO DE LA APLICACIÓN
+        // =================================================================
+        
+        let clicks = [];
+        /* 
+            let: Declara una variable que puede cambiar.
+            
+            [] (Array vacío): Lista ordenada de elementos.
+            
+            ARRAYS EN JAVASCRIPT:
+            let frutas = ['manzana', 'pera', 'uva'];
+            frutas[0]  // 'manzana' (índice 0 = primer elemento)
+            frutas.length  // 3
+            frutas.push('kiwi')  // Añade al final
+            
+            AQUÍ: Guardaremos las marcas de tiempo (timestamps) de cada clic.
+        */
+        
+        let bpmHistory = [];
+        /* 
+            Guardará el historial de BPM calculados para hacer un promedio.
+        */
+        
+        const maxClicks = 10;
+        /* 
+            Número máximo de clics a mantener en memoria.
+            Evita que el array crezca infinitamente.
+            
+            VENTAJA DE CONST: No podemos cambiarlo accidentalmente.
+        */
+        
+        const timeWindow = 5000;
+        /* 
+            Ventana de tiempo en milisegundos.
+            5000 ms = 5 segundos.
+            
+            Solo consideraremos clics dentro de esta ventana.
+            Clics más antiguos se descartan automáticamente.
+            
+            RAZÓN: Para medir BPM actual, no el de hace 1 minuto.
+        */
+
+        // =================================================================
+        // OBTENER REFERENCIAS A ELEMENTOS DEL DOM
+        // =================================================================
+        
+        const clickArea = document.getElementById('clickArea');
+        /* 
+            document: Representa toda la página HTML (DOM).
+            
+            DOM (Document Object Model):
+            Árbol de objetos JavaScript que representa el HTML.
+            Podemos manipular el HTML a través del DOM.
+            
+            getElementById('id'): Busca un elemento por su ID.
+            Devuelve el elemento o null si no existe.
+            
+            OTRAS FORMAS DE SELECCIONAR:
+            - document.querySelector('.clase')  // Primero que coincida
+            - document.querySelectorAll('.clase')  // Todos los que coincidan
+            - document.getElementsByClassName('clase')  // Más antiguo
+            
+            IMPORTANTE: Guarda las referencias en variables para no
+            buscar el elemento cada vez que lo necesites (más eficiente).
+        */
+        
+        const bpmDisplay = document.getElementById('bpmDisplay');
+        const clickCount = document.getElementById('clickCount');
+        const avgBpm = document.getElementById('avgBpm');
+        const status = document.getElementById('status');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // =================================================================
+        // FUNCIÓN PARA CALCULAR BPM
+        // =================================================================
+        
+        function calculateBPM() {
+            /* 
+                FUNCIÓN: Bloque de código reutilizable.
+                
+                SINTAXIS:
+                function nombreFunción(parámetros) {
+                    código
+                    return valor;
+                }
+                
+                VENTAJAS:
+                - Reutilización de código
+                - Organización
+                - Facilita mantenimiento
+                - Permite testing
+                
+                ESTA FUNCIÓN:
+                Calcula los BPM basándose en los intervalos entre clics.
+                No recibe parámetros, usa las variables globales.
+                Devuelve el BPM calculado o null si no hay suficientes datos.
+            */
+            
+            const now = Date.now();
+            /* 
+                Date.now(): Devuelve el timestamp actual.
+                
+                TIMESTAMP: Milisegundos desde el 1 de enero de 1970 (Unix Epoch).
+                Ejemplo: 1709664000000 (representa una fecha/hora específica)
+                
+                VENTAJA: Perfecto para medir intervalos de tiempo.
+                
+                ALTERNATIVAS:
+                - new Date(): Objeto fecha completo
+                - performance.now(): Más preciso para mediciones
+            */
+            
+            clicks = clicks.filter(time => now - time < timeWindow);
+            /* 
+                FILTER(): Método de arrays que filtra elementos.
+                
+                SINTAXIS:
+                array.filter(elemento => condición)
+                
+                Devuelve un NUEVO array con solo los elementos que cumplen
+                la condición (donde condición es true).
+                
+                ARROW FUNCTION AQUÍ:
+                time => now - time < timeWindow
+                
+                Para cada 'time' en clicks, verificamos si:
+                (now - time) < timeWindow
+                
+                Es decir: ¿El tiempo transcurrido desde ese clic es menor
+                a 5 segundos?
+                
+                RESULTADO: Solo mantenemos clics de los últimos 5 segundos.
+                
+                EJEMPLO:
+                now = 10000
+                clicks = [8000, 9000, 9500, 5000]
+                Después del filter: [8000, 9000, 9500]
+                (5000 se elimina porque 10000 - 5000 = 5000, no < 5000)
+                
+                EJERCICIO 12: Cambia timeWindow a 3000 y observa cómo
+                afecta la medición de BPM.
+            */
+            
+            if (clicks.length < 2) {
+                /* 
+                    .length: Propiedad que devuelve el número de elementos.
+                    
+                    OPERADOR <: Menor que
+                    
+                    Si hay menos de 2 clics, no podemos calcular un intervalo.
+                    Necesitamos al menos 2 puntos para medir tiempo entre ellos.
+                */
+                return null;
+                /* 
+                    return: Devuelve un valor y termina la función.
+                    
+                    null: Valor especial que representa "sin valor" o "vacío".
+                    
+                    DIFERENCIA null vs undefined:
+                    - null: Ausencia intencional de valor
+                    - undefined: Variable declarada pero sin valor asignado
+                    
+                    AQUÍ: Devolvemos null para indicar que no se puede calcular.
+                */
+            }
+
+            const intervals = [];
+            /* 
+                Crearemos un array con los intervalos de tiempo entre clics.
+                
+                EJEMPLO:
+                clicks = [1000, 1500, 2000]
+                intervals = [500, 500]
+                (1500-1000=500, 2000-1500=500)
+            */
+            
+            for (let i = 1; i < clicks.length; i++) {
+                /* 
+                    FOR LOOP: Estructura de repetición.
+                    
+                    SINTAXIS:
+                    for (inicialización; condición; incremento) {
+                        código a repetir
+                    }
+                    
+                    AQUÍ:
+                    - let i = 1: Empezamos en 1 (segundo elemento)
+                    - i < clicks.length: Continuamos mientras i sea menor que el tamaño
+                    - i++: Incrementamos i en 1 después de cada iteración
+                    
+                    ¿POR QUÉ EMPEZAR EN 1?
+                    Porque comparamos clicks[i] con clicks[i-1].
+                    Si empezamos en 0, clicks[-1] no existe.
+                    
+                    EJEMPLO ITERACIÓN:
+                    clicks = [1000, 1500, 2000]
+                    
+                    i=1: clicks[1] - clicks[0] = 1500 - 1000 = 500
+                    i=2: clicks[2] - clicks[1] = 2000 - 1500 = 500
+                    
+                    EJERCICIO 13: Añade console.log(i) dentro del loop
+                    para ver cómo cambia i en cada iteración.
+                */
+                
+                intervals.push(clicks[i] - clicks[i - 1]);
+                /* 
+                    push(): Método que añade un elemento al final del array.
+                    
+                    clicks[i]: Accede al elemento en la posición i.
+                    
+                    clicks[i] - clicks[i - 1]: Diferencia de tiempo entre
+                    el clic actual y el anterior.
+                    
+                    RESULTADO: intervals contendrá todos los tiempos entre clics.
+                */
+            }
+
+            const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+            /* 
+                REDUCE(): Método de arrays que "reduce" todos los elementos
+                a un único valor.
+                
+                SINTAXIS:
+                array.reduce((acumulador, elementoActual) => operación, valorInicial)
+                
+                AQUÍ:
+                (a, b) => a + b
+                - a: Acumulador (suma parcial)
+                - b: Elemento actual del array
+                - Operación: a + b (sumar)
+                - 0: Valor inicial del acumulador
+                
+                PROCESO:
+                intervals = [500, 600, 550]
+                
+                Iteración 1: a=0,   b=500 → 0+500=500
+                Iteración 2: a=500, b=600 → 500+600=1100
+                Iteración 3: a=1100, b=550 → 1100+550=1650
+                
+                RESULTADO: 1650
+                
+                Después dividimos entre intervals.length para obtener el promedio.
+                1650 / 3 = 550 ms (promedio)
+                
+                ALTERNATIVA MÁS LEGIBLE:
+                let suma = 0;
+                for (let interval of intervals) {
+                    suma += interval;
+                }
+                const avgInterval = suma / intervals.length;
+                
+                EJERCICIO 14: Reescribe usando un for loop en lugar de reduce.
+            */
+            
+            const bpm = Math.round(60000 / avgInterval);
+            /* 
+                CÁLCULO DE BPM:
+                BPM = Beats Per Minute (pulsaciones por minuto)
+                
+                60000 ms = 1 minuto
+                
+                Si el intervalo promedio es 500 ms:
+                60000 / 500 = 120 BPM
+                
+                Es decir: Si hay un clic cada 500 ms, hay 120 clics en 60 segundos.
+                
+                Math.round(): Redondea al entero más cercano.
+                - Math.round(4.3) → 4
+                - Math.round(4.6) → 5
+                - Math.round(4.5) → 5 (redondeo al par más cercano en algunos casos)
+                
+                OTRAS FUNCIONES DE Math:
+                - Math.floor(): Redondea hacia abajo (4.9 → 4)
+                - Math.ceil(): Redondea hacia arriba (4.1 → 5)
+                - Math.abs(): Valor absoluto (|-5| → 5)
+                - Math.max(a, b): Máximo entre dos valores
+                - Math.min(a, b): Mínimo entre dos valores
+                - Math.random(): Número aleatorio entre 0 y 1
+            */
+            
+            return bpm;
+            /* 
+                Devolvemos el BPM calculado.
+                La función que llamó a calculateBPM() recibirá este valor.
+            */
+        }
+
+        // =================================================================
+        // FUNCIÓN PARA ACTUALIZAR LA INTERFAZ
+        // =================================================================
+        
+        function updateDisplay() {
+            /* 
+                Esta función actualiza todos los elementos visuales
+                con los datos calculados.
+                
+                PRINCIPIO: Separar lógica de presentación.
+                - calculateBPM(): Solo calcula (lógica)
+                - updateDisplay(): Solo muestra (presentación)
+                
+                VENTAJA: Código más organizado y fácil de mantener.
+            */
+            
+            const bpm = calculateBPM();
+            /* 
+                Llamamos a la función calculateBPM() y guardamos el resultado.
+                bpm será un número o null.
+            */
+            
+            clickCount.textContent = clicks.length;
+            /* 
+                textContent: Propiedad que establece o lee el contenido de texto.
+                
+                DIFERENCIAS:
+                - textContent: Solo texto, más rápido, más seguro
+                - innerHTML: Puede contener HTML, más lento, riesgo de XSS
+                - innerText: Como textContent pero respeta estilos CSS
+                
+                RECOMENDACIÓN: Usa textContent para texto simple.
+                
+                AQUÍ: Mostramos el número de clics registrados.
+            */
+            
+            if (bpm !== null && bpm > 0 && bpm < 300) {
+                /* 
+                    OPERADOR !==: "No es estrictamente igual a"
+                    
+                    OPERADORES DE COMPARACIÓN:
+                    - === : Igual a (estricto, compara valor y tipo)
+                    - !== : No igual a (estricto)
+                    - == : Igual a (convierte tipos, evitar)
+                    - != : No igual a (convierte tipos, evitar)
+                    
+                    OPERADOR &&: "Y" lógico
+                    Todas las condiciones deben ser verdaderas.
+                    
+                    VALIDACIONES:
+                    1. bpm !== null: Hay un valor calculado
+                    2. bpm > 0: Es un valor positivo
+                    3. bpm < 300: Es un valor realista para música
+                    
+                    ¿POR QUÉ < 300?
+                    - Música normal: 60-180 BPM
+                    - Speedcore: hasta ~300 BPM
+                    - Más de 300: Probablemente error o clics aleatorios
+                    
+                    EJERCICIO 15: Intenta hacer clics muy rápidos y observa
+                    qué pasa cuando superas 300 BPM.
+                */
+                
+                bpmDisplay.textContent = `${bpm} BPM`;
+                /* 
+                    TEMPLATE LITERAL: String con interpolación.
+                    
+                    `texto ${variable} más texto`
+                    
+                    ${bpm}: Inserta el valor de la variable bpm.
+                    
+                    RESULTADO: Si bpm = 120, mostrará "120 BPM"
+                    
+                    ALTERNATIVA ANTIGUA:
+                    bpmDisplay.textContent = bpm + ' BPM';
+                    
+                    VENTAJA DE TEMPLATE LITERALS:
+                    Más legible, especialmente con múltiples variables.
+                */
+                
+                bpmHistory.push(bpm);
+                /* Añadimos el BPM al historial */
+                
+                if (bpmHistory.length > 20) {
+                    /* 
+                        Limitamos el historial a 20 valores.
+                        ¿Por qué 20?
+                        - Suficiente para un promedio estable
+                        - No consume mucha memoria
+                        - Responde a cambios de tempo relativamente rápido
+                    */
+                    
+                    bpmHistory.shift();
+                    /* 
+                        shift(): Elimina el PRIMER elemento del array.
+                        
+                        MÉTODOS DE ARRAY COMUNES:
+                        - push(): Añade al final
+                        - pop(): Elimina del final
+                        - unshift(): Añade al inicio
+                        - shift(): Elimina del inicio
+                        - slice(): Extrae una porción
+                        - splice(): Elimina/inserta en cualquier posición
+                        
+                        AQUÍ: Eliminamos el valor más antiguo.
+                        Esto mantiene el array en 20 elementos máximo.
+                        
+                        EJERCICIO 16: Cambia 20 a 5 y observa cómo el promedio
+                        responde más rápido a cambios de tempo.
+                    */
+                }
+                
+                const avg = Math.round(bpmHistory.reduce((a, b) => a + b, 0) / bpmHistory.length);
+                /* 
+                    Calculamos el promedio de todos los BPM del historial.
+                    Misma técnica que usamos antes: reduce para sumar, luego dividir.
+                    
+                    VENTAJA DEL PROMEDIO:
+                    Suaviza las variaciones y da una medida más estable.
+                */
+                
+                avgBpm.textContent = avg;
+                /* Mostramos el promedio */
+                
+                if (clicks.length < 4) {
+                    /* 
+                        Con menos de 4 clics, la medición no es muy precisa.
+                        Informamos al usuario que continúe.
+                    */
+                    status.textContent = 'Sigue haciendo clic para mayor precisión...';
+                } else {
+                    status.textContent = '✓ Medición activa';
+                    /* 
+                        Con 4+ clics, ya tenemos una medición razonable.
+                        El checkmark (✓) indica éxito visualmente.
+                    */
+                }
+            } else {
+                /* 
+                    ELSE: Se ejecuta si la condición del IF es falsa.
+                    
+                    Llegamos aquí si:
+                    - bpm es null (no hay suficientes clics)
+                    - bpm <= 0 (valor inválido)
+                    - bpm >= 300 (valor poco realista)
+                */
+                
+                if (clicks.length === 1) {
+                    /* 
+                        OPERADOR ===: "Es estrictamente igual a"
+                        
+                        Si hay exactamente 1 clic, mostramos mensajes iniciales.
+                    */
+                    
+                    bpmDisplay.textContent = '-- BPM';
+                    status.textContent = 'Necesito más clics para calcular...';
+                }
+            }
+        }
+
+        // =================================================================
+        // EVENT LISTENER: DETECTAR CLICS EN EL ÁREA
+        // =================================================================
+        
+        clickArea.addEventListener('click', () => {
+            /* 
+                EVENTO 'click': Se dispara cuando se hace clic en el elemento.
+                
+                OTROS EVENTOS COMUNES:
+                - 'mouseenter': Ratón entra en el elemento
+                - 'mouseleave': Ratón sale del elemento
+                - 'keydown': Se presiona una tecla
+                - 'submit': Se envía un formulario
+                - 'scroll': Se hace scroll
+                - 'resize': Cambia el tamaño de la ventana
+                
+                ARROW FUNCTION: () => { ... }
+                Esta función se ejecuta cada vez que hay un clic.
+                
+                NOTA: También funciona en táctil (touch) en móviles.
+            */
+            
+            const now = Date.now();
+            /* Obtenemos el timestamp actual */
+            
+            clicks.push(now);
+            /* 
+                Añadimos el timestamp del clic al array.
+                Esto registra CUÁNDO ocurrió cada clic.
+                
+                EJEMPLO:
+                Antes: clicks = [1000, 1500]
+                Después: clicks = [1000, 1500, 2000]
+            */
+            
+            if (clicks.length > maxClicks) {
+                /* 
+                    Si tenemos más clics que el máximo permitido,
+                    eliminamos el más antiguo.
+                */
+                clicks.shift();
+                /* Elimina el primer elemento (más antiguo) */
+            }
+            
+            updateDisplay();
+            /* 
+                Actualizamos la interfaz con los nuevos datos.
+                Esto recalcula BPM y actualiza todos los números mostrados.
+            */
+            
+            // Reiniciar la animación de pulso
+            bpmDisplay.style.animation = 'none';
+            /* 
+                .style: Accede a los estilos CSS inline del elemento.
+                
+                'none': Desactiva la animación.
+                
+                ¿POR QUÉ?
+                Para poder reiniciar la animación desde el principio.
+                Si no hacemos esto, la animación solo se ejecutaría una vez.
+            */
+            
+            setTimeout(() => {
+                /* 
+                    setTimeout(): Ejecuta una función después de un retraso.
+                    
+                    SINTAXIS:
+                    setTimeout(función, milisegundos)
+                    
+                    AQUÍ:
+                    Esperamos 10 ms antes de reactivar la animación.
+                    
+                    ¿POR QUÉ 10 MS?
+                    Necesitamos un pequeño delay para que el navegador
+                    "registre" que quitamos la animación antes de volver
+                    a ponerla.
+                    
+                    PROCESO:
+                    1. animation = 'none' → se quita la animación
+                    2. Esperamos 10 ms
+                    3. animation = 'pulse ...' → se reinicia la animación
+                    
+                    RESULTADO: La animación de pulso se ejecuta en cada clic.
+                    
+                    ALTERNATIVA:
+                    setInterval(): Para ejecutar repetidamente
+                    requestAnimationFrame(): Para animaciones más suaves
+                */
+                
+                bpmDisplay.style.animation = 'pulse 0.5s ease-in-out';
+                /* Reactivamos la animación pulse */
+            }, 10);
+        });
+
+        // =================================================================
+        // EVENT LISTENER: BOTÓN DE REINICIAR
+        // =================================================================
+        
+        resetBtn.addEventListener('click', () => {
+            /* 
+                Cuando se hace clic en el botón "Reiniciar",
+                esta función se ejecuta.
+            */
+            
+            clicks = [];
+            /* 
+                Vaciamos el array de clics.
+                [] es un array vacío (sin elementos).
+                
+                DIFERENCIA:
+                clicks.length = 0  // También vacía el array
+                clicks = []         // Crea un nuevo array vacío
+                
+                Ambos funcionan, pero [] es más común.
+            */
+            
+            bpmHistory = [];
+            /* Vaciamos el historial de BPM */
+            
+            // Restaurar valores iniciales en la interfaz
+            bpmDisplay.textContent = '-- BPM';
+            clickCount.textContent = '0';
+            avgBpm.textContent = '--';
+            status.textContent = 'Esperando clics...';
+            
+            /* 
+                Reseteamos toda la interfaz a su estado inicial.
+                
+                PRINCIPIO: Devolver la aplicación a un "estado limpio".
+                
+                EJERCICIO 17: Añade un efecto visual al reiniciar,
+                como cambiar temporalmente el color del botón.
+            */
+        });
+        
+        /* =================================================================
+           POSIBLES MEJORAS Y EJERCICIOS PARA AMPLIAR EL CÓDIGO
+           =================================================================
+           
+           EJERCICIO 18 - GUARDAR EN LOCAL STORAGE:
+           Añade localStorage para que los datos persistan al recargar.
+           
+           localStorage.setItem('bpmData', JSON.stringify(clicks));
+           const saved = JSON.parse(localStorage.getItem('bpmData'));
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 19 - BOTÓN DE PAUSA:
+           Añade un botón para pausar/reanudar la captura de clics.
+           Usa una variable boolean: let isPaused = false;
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 20 - MODO OSCURO:
+           Añade un botón para cambiar entre modo claro y oscuro.
+           Cambia las variables CSS o aplica clases diferentes.
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 21 - HISTORIAL VISUAL:
+           Muestra un gráfico de líneas con los últimos BPM medidos.
+           Usa la librería Chart.js o Canvas API.
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 22 - SOPORTE DE TECLAS:
+           Permite usar la barra espaciadora en lugar de clics.
+           
+           document.addEventListener('keydown', (e) => {
+               if (e.key === ' ') { // código del clic }
+           });
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 23 - EXPORT/IMPORT:
+           Añade botones para exportar/importar datos como archivo JSON.
+           Usa Blob y URL.createObjectURL para descargar.
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 24 - METRÓNOMO:
+           Añade un metrónomo que suene al ritmo del BPM medido.
+           Usa Web Audio API para generar sonidos.
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 25 - MODO TAP TEMPO INTELIGENTE:
+           Detecta automáticamente si el usuario está marcando
+           negras, corcheas o semicorcheas y ajusta el BPM.
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 26 - COMPARTIR EN REDES:
+           Añade botones para compartir el resultado en Twitter, etc.
+           Usa la Web Share API o links directos.
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 27 - COMPARAR CON CANCIONES:
+           Muestra canciones famosas con BPM similares al medido.
+           Base de datos: { "Stayin' Alive": 104, "Billie Jean": 117, ... }
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 28 - ANÁLISIS ESTADÍSTICO:
+           Muestra desviación estándar, variabilidad, etc.
+           Detecta si el ritmo es estable o irregular.
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 29 - MODO COMPETITIVO:
+           Modo de juego: el usuario debe mantener un BPM target.
+           Muestra puntuación basada en precisión.
+           
+           -------------------------------------------------------------------
+           
+           EJERCICIO 30 - INTEGRACIÓN CON SPOTIFY:
+           Usa la API de Spotify para comparar con canciones reales.
+           Requiere OAuth y API keys.
+           
+           =================================================================
+        */
+    </script>
+</body>
+</html>

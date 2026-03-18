@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="Mide los BPM de cualquier canción con solo hacer clic al ritmo">
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFuYWxpemFkb3IgZGUgQlBNIiwKICAic2hvcnRfbmFtZSI6ICJCUE0iLAogICJkZXNjcmlwdGlvbiI6ICJNaWRlIGxvcyBCUE0gZGUgY3VhbHF1aWVyIGNhbmNpw7NuIGNvbiBzb2xvIGhhY2VyIGNsaWMgYWwgcml0bW8iLAogICJzdGFydF91cmwiOiAiLiIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiIzY2N2VlYSIsCiAgInRoZW1lX2NvbG9yIjogIiM2NjdlZWEiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbCwlM0NzdmclMjB4bWxucyUzRCdodHRwJTNBJTJGJTJGd3d3LnczLm9yZyUyRjIwMDAlMkZzdmcnJTIwdmlld0JveCUzRCcwJTIwMCUyMDUxMiUyMDUxMicjM0UlM0NyZWN0JTIwd2lkdGglM0QnNTEyJyUyMGhlaWdodCUzRCc1MTInJTIwZmlsbCUzRCclMjM2NjdlZWEnJTJGJTNFJTNDdGV4dCUyMHglM0QnNTAlMjUnJTIweSUzRCc1MCUyNSclMjBmb250LXNpemUlM0QnMzAwJyUyMHRleHQtYW5jaG9yJTNEJ21pZGRsZSclMjBkb21pbmFudC1iYXNlbGluZSUzRCdtaWRkbGUnJTIwZmlsbCUzRCd3aGl0ZSclM0UlRjAlOUYlOEUlQjUlM0MlMkZ0ZXh0JTNFJTNDJTJGc3ZnJTNFIiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIiwKICAgICAgInB1cnBvc2UiOiAiYW55IG1hc2thYmxlIgogICAgfQogIF0KfQ==">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%23667eea'/%3E%3Ctext x='50%25' y='50%25' font-size='300' text-anchor='middle' dominant-baseline='middle' fill='white'%3E🎵%3C/text%3E%3C/svg%3E">
+    <title>Analizador de BPM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 50px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 90%;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .instruction {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* Adaptación para móviles */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .instruction {
+                font-size: 1em;
+            }
+
+            .click-area {
+                padding: 60px 20px;
+            }
+
+            .bpm-display {
+                font-size: 3em;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .stat-value {
+                font-size: 1.5em;
+            }
+
+            .reset-btn {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px 15px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .click-area {
+                padding: 50px 15px;
+            }
+
+            .bpm-display {
+                font-size: 2.5em;
+            }
+        }
+
+        .click-area {
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid white;
+            border-radius: 15px;
+            padding: 80px 40px;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .click-area:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.02);
+        }
+
+        .click-area:active {
+            transform: scale(0.98);
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        .bpm-display {
+            font-size: 4em;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: pulse 0.5s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+
+        .reset-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .reset-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .reset-btn:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            margin-top: 15px;
+            font-size: 0.95em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 Analizador de BPM</h1>
+        <p class="instruction">Haz clic al ritmo de la música</p>
+        
+        <div class="click-area" id="clickArea">
+            <div style="font-size: 2em; margin-bottom: 10px;">👆 Haz clic aquí</div>
+            <div style="opacity: 0.8;">Al ritmo que quieras medir</div>
+        </div>
+
+        <div class="bpm-display" id="bpmDisplay">-- BPM</div>
+        
+        <div class="stats">
+            <div class="stat-box">
+                <div class="stat-label">Clics registrados</div>
+                <div class="stat-value" id="clickCount">0</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Promedio BPM</div>
+                <div class="stat-value" id="avgBpm">--</div>
+            </div>
+        </div>
+
+        <div class="status" id="status">Esperando clics...</div>
+
+        <button class="reset-btn" id="resetBtn">Reiniciar</button>
+    </div>
+
+    <script>
+        // Intentar registrar Service Worker para PWA
+        if ('serviceWorker' in navigator && window.location.protocol === 'https:') {
+            window.addEventListener('load', () => {
+                // Crear service worker inline usando data URI
+                const swCode = `
+                    self.addEventListener('install', (e) => {
+                        console.log('SW instalado');
+                        self.skipWaiting();
+                    });
+                    
+                    self.addEventListener('activate', (e) => {
+                        console.log('SW activado');
+                        e.waitUntil(clients.claim());
+                    });
+                    
+                    self.addEventListener('fetch', (e) => {
+                        e.respondWith(fetch(e.request).catch(() => e.request));
+                    });
+                `;
+                
+                try {
+                    const blob = new Blob([swCode], { type: 'application/javascript' });
+                    const swUrl = URL.createObjectURL(blob);
+                    
+                    navigator.serviceWorker.register(swUrl)
+                        .then(() => console.log('✓ Service Worker registrado'))
+                        .catch(err => console.log('Info: Esta página necesita estar en HTTPS para instalar'));
+                } catch (err) {
+                    console.log('Info: Service Worker no disponible en este contexto');
+                }
+            });
+        }
+
+        let clicks = [];
+        let bpmHistory = [];
+        const maxClicks = 10;
+        const timeWindow = 5000; // 5 segundos
+
+        const clickArea = document.getElementById('clickArea');
+        const bpmDisplay = document.getElementById('bpmDisplay');
+        const clickCount = document.getElementById('clickCount');
+        const avgBpm = document.getElementById('avgBpm');
+        const status = document.getElementById('status');
+        const resetBtn = document.getElementById('resetBtn');
+
+        function calculateBPM() {
+            const now = Date.now();
+            
+            // Eliminar clics antiguos fuera de la ventana de tiempo
+            clicks = clicks.filter(time => now - time < timeWindow);
+            
+            if (clicks.length < 2) {
+                return null;
+            }
+
+            // Calcular intervalos entre clics
+            const intervals = [];
+            for (let i = 1; i < clicks.length; i++) {
+                intervals.push(clicks[i] - clicks[i - 1]);
+            }
+
+            // Calcular promedio de intervalos
+            const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
+            
+            // Convertir a BPM (60000 ms en un minuto)
+            const bpm = Math.round(60000 / avgInterval);
+            
+            return bpm;
+        }
+
+        function updateDisplay() {
+            const bpm = calculateBPM();
+            
+            clickCount.textContent = clicks.length;
+            
+            if (bpm !== null && bpm > 0 && bpm < 300) {
+                bpmDisplay.textContent = `${bpm} BPM`;
+                bpmHistory.push(bpm);
+                
+                // Mantener solo los últimos 20 valores para el promedio
+                if (bpmHistory.length > 20) {
+                    bpmHistory.shift();
+                }
+                
+                const avg = Math.round(bpmHistory.reduce((a, b) => a + b, 0) / bpmHistory.length);
+                avgBpm.textContent = avg;
+                
+                if (clicks.length < 4) {
+                    status.textContent = 'Sigue haciendo clic para mayor precisión...';
+                } else {
+                    status.textContent = '✓ Medición activa';
+                }
+            } else {
+                if (clicks.length === 1) {
+                    bpmDisplay.textContent = '-- BPM';
+                    status.textContent = 'Necesito más clics para calcular...';
+                }
+            }
+        }
+
+        clickArea.addEventListener('click', () => {
+            const now = Date.now();
+            clicks.push(now);
+            
+            // Limitar el número de clics almacenados
+            if (clicks.length > maxClicks) {
+                clicks.shift();
+            }
+            
+            updateDisplay();
+            
+            // Animación visual
+            bpmDisplay.style.animation = 'none';
+            setTimeout(() => {
+                bpmDisplay.style.animation = 'pulse 0.5s ease-in-out';
+            }, 10);
+        });
+
+        resetBtn.addEventListener('click', () => {
+            clicks = [];
+            bpmHistory = [];
+            bpmDisplay.textContent = '-- BPM';
+            clickCount.textContent = '0';
+            avgBpm.textContent = '--';
+            status.textContent = 'Esperando clics...';
+        });
+    </script>
+</body>
+</html>
